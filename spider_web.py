@@ -21,9 +21,10 @@ def get_link(key_word, page):
     return link_all
 
 
-# 将无关的符号进行替换删除
+# 将无关的符号进行替换删除，转化成string形式
 def filter(data):
-    result = data.replace('\n', '').replace('\r', '').replace('\t', '').replace(' ', '')
+    result = data.replace('\n', '').replace('\r', '').replace('\t', '').replace(' ', '').replace('\xa0', '')
+    result = str(result)
     return result
 
 
@@ -35,14 +36,20 @@ def get_data(link, file_store):
         company = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/p[1]/a[1]/@title')
         company_type = html_xpath.xpath('/html/body/div[3]/div[2]/div[4]/div[1]/div[2]/p[3]/@title')
         work_place = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/p[2]/text()')[0]
-        work_place = filter(work_place)
+        salary = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/strong/text()')[0]
         job_name = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/h1/@title')
         job_description = html_xpath.xpath('/html/body/div[3]/div[2]/div[3]/div[1]')[0]
         job_description = job_description.xpath('string(.)')
+        # 数据清洗
+        company = filter(company[0])
+        company_type = filter(company_type[0])
+        work_place = filter(work_place)
+        salary = filter(salary)
+        job_name = filter(job_name[0])
         job_description = filter(job_description)
         try:
-            item = str(company[0])+'\t'+str(company_type[0])+'\t'+str(work_place)+'\t'+str(job_name[0]) +\
-                   '\t'+str(job_description)+'\n'
+            item = company+'\t'+company_type+'\t'+work_place+'\t'+salary+'\t'+job_name +\
+                   '\t'+job_description+'\n'
             file_store.write(item)
         except Exception as e:
             print(e)
@@ -52,9 +59,9 @@ def get_data(link, file_store):
 
 
 if __name__ == '__main__':
-    store_path = '51job.txt'  # 存储位置
+    store_path = 'data/original/51job.txt'  # 存储位置
     file_store = open(store_path, 'w', encoding='utf-8')    # 结果存储文件
-    page_all = 100
+    page_all = 300
     key_word = "人工智能"   # 搜索设定关键字和页数
     for page in range(1, page_all):
         print('正在爬取第{}页链接信息'.format(page))
