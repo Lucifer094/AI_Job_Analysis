@@ -20,8 +20,8 @@ def change(line):
     job_description = line[5]
 
     company_type = company_type.replace(',', '/')
-    company_type = re.sub('\(.*?\)', '', company_type)
-    work_place = work_place.split('-')[0]
+    company_type = re.sub('\(.*?\)', '', company_type)  # 公司性质间用/分割并且删除括号内的东西
+    work_place = work_place.split('-')[0]   # 工作地址统一到市
 
     line_process = company+'\t'+company_type+'\t'+work_place+'\t'+salary+'\t'+job_name + '\t'+job_description+'\n'
     return line_process
