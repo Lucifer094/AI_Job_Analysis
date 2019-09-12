@@ -37,9 +37,11 @@ def change(line):
     company = line[0]
     company_type = line[1]
     work_place = line[2]
-    salary = line[3]
-    job_name = line[4]
-    job_description = line[5]
+    work_experience = line[3]
+    education = line[4]
+    salary = line[5]
+    job_name = line[6]
+    job_description = line[7]
 
     company_type = company_type.replace(',', '/')
     company_type = re.sub('\(.*?\)', '', company_type)  # 公司性质间用/分割并且删除括号内的东西
@@ -49,7 +51,8 @@ def change(line):
     except:
         return None
 
-    line_process = company+'\t'+company_type+'\t'+work_place+'\t'+salary+'\t'+job_name + '\t'+job_description+'\n'
+    line_process = company+'\t'+company_type+'\t'+work_place+'\t'+work_experience +\
+                   '\t'+education+'\t'+salary+'\t'+job_name + '\t'+job_description+'\n'
     return line_process
 
 

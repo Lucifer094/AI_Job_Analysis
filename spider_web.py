@@ -36,6 +36,8 @@ def get_data(link, file_store):
         company = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/p[1]/a[1]/@title')
         company_type = html_xpath.xpath('/html/body/div[3]/div[2]/div[4]/div[1]/div[2]/p[3]/@title')
         work_place = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/p[2]/text()')[0]
+        work_experience = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/p[2]/text()')[1]
+        education = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/p[2]/text()')[2]
         salary = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/strong/text()')[0]
         job_name = html_xpath.xpath('/html/body/div[3]/div[2]/div[2]/div/div[1]/h1/@title')
         job_description = html_xpath.xpath('/html/body/div[3]/div[2]/div[3]/div[1]')[0]
@@ -44,12 +46,14 @@ def get_data(link, file_store):
         company = filter(company[0])
         company_type = filter(company_type[0])
         work_place = filter(work_place)
+        work_experience = filter(work_experience)
+        education = filter(education)
         salary = filter(salary)
         job_name = filter(job_name[0])
         job_description = filter(job_description)
         try:
-            item = company+'\t'+company_type+'\t'+work_place+'\t'+salary+'\t'+job_name +\
-                   '\t'+job_description+'\n'
+            item = company+'\t'+company_type+'\t'+work_place+'\t'+work_experience+'\t'+education +\
+                   '\t'+salary+'\t'+job_name+'\t'+job_description+'\n'
             file_store.write(item)
         except Exception as e:
             print(e)
